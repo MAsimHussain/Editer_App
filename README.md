@@ -1,2 +1,3 @@
 # Editer_App
-Editer App with Appwrite 
+Editer App with Appwrite only Practice
+
