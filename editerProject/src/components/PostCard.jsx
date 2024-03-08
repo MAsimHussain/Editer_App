@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import appwriteService from "../Appwrite/Config";
+import { appwriteService } from "../Appwrite/Config";
+
 export default function PostCard({ $id, title, content, featuredImage }) {
   return (
     <Link to={`/post/${$id}`}>

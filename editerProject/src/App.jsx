@@ -28,7 +28,7 @@ function App() {
       <div className="w-full block">
         <main>
           <Header />
-          <h1>Curent user Find or not</h1>
+          
           <Outlet />
           <Footer />
         </main>

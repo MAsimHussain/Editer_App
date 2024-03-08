@@ -1,5 +1,5 @@
 import conf from "../conf/conf";
-import { Client, Account, ID } from "appwrite";
+import { Client, ID, Databases, Storage, Query } from "appwrite";
 
 export class Services {
   client = new Client();
@@ -102,11 +102,7 @@ export class Services {
   }
   async deleteFile(fileId) {
     try {
-      await this.bucket.deleteDocument(
-        conf.apwriteDataBaseId,
-
-        fileId
-      );
+      await this.bucket.deleteDocument(conf.apwriteDataBaseId, fileId);
       return true;
     } catch (error) {
       console.log("deleteFile : ", error);
@@ -121,5 +117,6 @@ export class Services {
     }
   }
 }
+const appwriteService = new Services();
 
-export const services = new Services();
+export { appwriteService };

@@ -2,18 +2,19 @@ import React, { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import appwriteService from "../../Appwrite/Config";
-import Input from "../Input";
+import { appwriteService } from "../../Appwrite/Config";
+import { RTE, Button, Select, Input } from "../../components/index";
 
-export default function PostForm({ post }) {
-  const { register, setValue, handleSubmit, watch, control } = useForm({
-    defaultValues: {
-      title: post?.title || "",
-      slug: post?.$id || "",
-      content: post?.content || "",
-      status: post?.status || "active",
-    },
-  });
+function PostForm({ post }) {
+  const { register, setValue, getValues, handleSubmit, watch, control } =
+    useForm({
+      defaultValues: {
+        title: post?.title || "",
+        slug: post?.$id || "",
+        content: post?.content || "",
+        status: post?.status || "active",
+      },
+    });
 
   const navigate = useNavigate();
   const userData = useSelector((state) => state.auth.userData);
@@ -80,17 +81,17 @@ export default function PostForm({ post }) {
 
   return (
     <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-      <div className="w-2/3 px-2">
+      <div className="w-2/3   px-2">
         <Input
-          label="Title :"
+          label="Title  :"
           placeholder="Title"
-          className="mb-4"
+          className="block w-full p-4  text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           {...register("title", { required: true })}
         />
         <Input
           label="Slug :"
           placeholder="Slug"
-          className="mb-4"
+          className="block w-full p-4 mt-7 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 text-base focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           {...register("slug", { required: true })}
           onInput={(e) => {
             setValue("slug", slugTransform(e.currentTarget.value), {
@@ -106,13 +107,36 @@ export default function PostForm({ post }) {
         />
       </div>
       <div className="w-1/3 px-2">
-        <Input
-          label="Featured Image :"
-          type="file"
-          className="mb-4"
-          accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("image", { required: !post })}
-        />
+        <div className="rounded-md border border-indigo-500 bg-gray-50 p-4 shadow-md w-15">
+          <label
+            htmlFor="upload" // Corrected attribute name
+            className="flex flex-col items-center gap-2 cursor-pointer"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-10 w-10 text-white stroke-indigo-500"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth="2" // Corrected attribute name
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            <span className="text-gray-600 font-medium">Upload file</span>
+          </label>
+
+          <input
+            id="upload"
+            className="hidden"
+            type="file"
+            accept="image/png, image/jpg, image/jpeg, image/gif"
+            {...register("image", { required: !post })}
+          />
+        </div>
+
         {post && (
           <div className="w-full mb-4">
             <img
@@ -125,7 +149,7 @@ export default function PostForm({ post }) {
         <Select
           options={["active", "inactive"]}
           label="Status"
-          className="mb-4"
+          className="block w-full mb-5 text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
           {...register("status", { required: true })}
         />
         <Button
@@ -133,9 +157,11 @@ export default function PostForm({ post }) {
           bgColor={post ? "bg-green-500" : undefined}
           className="w-full"
         >
-          {post ? "Update" : "Submit"}
+          {post ? "Update" : "Save Content"}
         </Button>
       </div>
     </form>
   );
 }
+
+export default PostForm;

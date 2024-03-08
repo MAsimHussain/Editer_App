@@ -1,7 +1,7 @@
 import React from "react";
-import { logout } from "../../Store/authSlice";
+import { logout } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
-import { authServices } from "./Appwrite/auth";
+import { authServices } from "../../Appwrite/auth";
 
 export default function LogoutBtn() {
   const dispatch = useDispatch();
@@ -9,13 +9,13 @@ export default function LogoutBtn() {
   const LogoutHandler = () => {
     authServices.logout().then(() => {
       dispatch(logout());
+      console.log("Logout Button was Clicked!")
     });
   };
 
   return (
     <div
-      className="inline-bock px-6 py-2 duration-200
-     hover:bg-blue-100 rounded-full"
+      className="	cursor-pointer inline-bock px-4 py-2 duration-200 hover:bg-blue-300 rounded-full"
       onClick={LogoutHandler}
     >
       Logout
