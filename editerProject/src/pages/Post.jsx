@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import {appwriteService} from "../Appwrite/Config";
+import { appwriteService } from "../Appwrite/Config";
 import { _Container } from "../components";
+import { parse } from "postcss";
 
-function Post() {
+export default function Post() {
   const [post, setPost] = useState(null);
-  const userData = useSelector((state) => state.auth.userData);
-  const navigate = useNavigate();
   const { slug } = useParams();
+  const navigate = useNavigate();
+
+  const userData = useSelector((state) => state.auth.userData);
 
   const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -19,7 +21,7 @@ function Post() {
         else navigate("/");
       });
     } else navigate("/");
-  }, [navigate, slug]);
+  }, [slug, navigate]);
 
   const deletePost = () => {
     appwriteService.deletePost(post.$id).then((status) => {
@@ -35,7 +37,7 @@ function Post() {
       <_Container>
         <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
           <img
-            src={appwriteService.getFilePreview(post.featuredImage)}
+            src={appwriteService.filePreview(post.featuredImage)}
             alt={post.title}
             className="rounded-xl"
           />
@@ -56,10 +58,8 @@ function Post() {
         <div className="w-full mb-6">
           <h1 className="text-2xl font-bold">{post.title}</h1>
         </div>
-        <div className="browser-css">{parse(post.content)}</div>
+        <div className="browser-css">{parser(post.content)}</div>
       </_Container>
     </div>
   ) : null;
 }
-
-export default Post;
