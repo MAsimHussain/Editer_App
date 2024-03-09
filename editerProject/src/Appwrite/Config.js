@@ -90,13 +90,12 @@ export class Services {
   async uploadFile(file) {
     try {
       return await this.bucket.createFile(
-        conf.apwriteDataBaseId,
         conf.apwriteBucketId,
         ID.unique(),
         file
       );
     } catch (error) {
-      console.log("upload File : ", error);
+      console.log("Appwrite serive :: uploadFile :: error", error);
       return false;
     }
   }
